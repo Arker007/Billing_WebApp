@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental System - Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-car"></i>
+                    <span>CarRental</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="browse_vehicles.html"><i class="fas fa-car"></i> Browse Vehicles</a></li>
+                <li><a href="about_us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="register.html" class="active"><i class="fas fa-user-plus"></i> Register</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="register-section">
+            <div class="container">
+                <div class="register-container">
+                    <div class="register-header">
+                        <h1><i class="fas fa-user-plus"></i> Create Your Account</h1>
+                        <p>Join CarRental as a user to rent vehicles or as a host to list your vehicles</p>
+                    </div>
+
+                    <div class="register-tabs">
+                        <button class="reg-tab-btn active" onclick="switchRegTab('user')">
+                            <i class="fas fa-user"></i> Register as User
+                        </button>
+                        <button class="reg-tab-btn" onclick="switchRegTab('host')">
+                            <i class="fas fa-home"></i> Register as Host
+                        </button>
+                    </div>
+
+                    <div class="form-progress">
+                        <div class="progress-bar">
+                            <div class="progress-step active" data-step="1">1</div>
+                            <div class="progress-step" data-step="2">2</div>
+                            <div class="progress-step" data-step="3">3</div>
+                        </div>
+                        <div class="progress-labels">
+                            <span class="active">Basic Info</span>
+                            <span>Contact Details</span>
+                            <span>Document Upload</span>
+                        </div>
+                    </div>
+
+                    <form id="registerForm" class="register-form">
+                        <!-- User Registration Form -->
+                        <div id="userRegForm" class="reg-tab-content active">
+                            <!-- Step 1: Basic Information -->
+                            <div class="form-step active" data-step="1">
+                                <h3><i class="fas fa-user-circle"></i> Basic Information</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="user_username"><i class="fas fa-user"></i> Full Name *</label>
+                                        <input type="text" id="user_username" name="username" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_email"><i class="fas fa-envelope"></i> Email Address *</label>
+                                        <input type="email" id="user_email" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="user_password"><i class="fas fa-lock"></i> Password *</label>
+                                        <div class="password-input">
+                                            <input type="password" id="user_password" name="password" placeholder="Create a strong password" required>
+                                            <button type="button" class="show-password" onclick="togglePassword('user_password')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="password-strength">
+                                            <div class="strength-bar"></div>
+                                            <span class="strength-text">Password strength</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_confirm_password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                                        <div class="password-input">
+                                            <input type="password" id="user_confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                                            <button type="button" class="show-password" onclick="togglePassword('user_confirm_password')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Contact Details -->
+                            <div class="form-step" data-step="2">
+                                <h3><i class="fas fa-address-card"></i> Contact Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="user_contact"><i class="fas fa-phone"></i> Contact Number *</label>
+                                        <input type="tel" id="user_contact" name="contact_number" placeholder="Enter your phone number" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_dob"><i class="fas fa-birthday-cake"></i> Date of Birth</label>
+                                        <input type="date" id="user_dob" name="dob">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="user_address"><i class="fas fa-map-marker-alt"></i> Address *</label>
+                                    <textarea id="user_address" name="address" rows="3" placeholder="Enter your complete address" required></textarea>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="user_city"><i class="fas fa-city"></i> City *</label>
+                                        <input type="text" id="user_city" name="city" placeholder="Enter your city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_state"><i class="fas fa-map"></i> State *</label>
+                                        <input type="text" id="user_state" name="state" placeholder="Enter your state" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_pincode"><i class="fas fa-map-pin"></i> Pincode *</label>
+                                        <input type="text" id="user_pincode" name="pincode" placeholder="Enter pincode" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button type="button" class="btn primary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Document Upload -->
+                            <div class="form-step" data-step="3">
+                                <h3><i class="fas fa-file-upload"></i> Document Upload</h3>
+                                
+                                <div class="form-group">
+                                    <label><i class="fas fa-id-card"></i> Driving License *</label>
+                                    <div class="file-upload-area" id="licenseUploadArea">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </div>
+                                        <p class="upload-text">Click to upload or drag & drop</p>
+                                        <p class="upload-subtext">PNG, JPG, PDF up to 5MB</p>
+                                        <input type="file" id="user_license" name="driving_license" accept=".jpg,.jpeg,.png,.pdf" hidden required>
+                                        <div class="file-preview" id="licensePreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label><i class="fas fa-address-card"></i> ID Proof (Aadhar/Voter ID/Passport) *</label>
+                                    <div class="file-upload-area" id="idProofUploadArea">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-id-card"></i>
+                                        </div>
+                                        <p class="upload-text">Click to upload or drag & drop</p>
+                                        <p class="upload-subtext">PNG, JPG, PDF up to 5MB</p>
+                                        <input type="file" id="user_id_proof" name="id_proof" accept=".jpg,.jpeg,.png,.pdf" hidden required>
+                                        <div class="file-preview" id="idProofPreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="terms-agreement">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="user_terms" name="terms" required>
+                                        <span>I agree to the <a href="#" onclick="showTerms()">Terms & Conditions</a> and <a href="#" onclick="showPrivacy()">Privacy Policy</a> *</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button type="submit" class="btn success">
+                                        <i class="fas fa-user-plus"></i> Complete Registration
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Host Registration Form -->
+                        <div id="hostRegForm" class="reg-tab-content">
+                            <!-- Step 1: Basic Information -->
+                            <div class="form-step active" data-step="1">
+                                <h3><i class="fas fa-home"></i> Host Information</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="host_username"><i class="fas fa-user"></i> Host Name *</label>
+                                        <input type="text" id="host_username" name="username" placeholder="Enter your name or business name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="host_email"><i class="fas fa-envelope"></i> Email Address *</label>
+                                        <input type="email" id="host_email" name="email" placeholder="Enter business email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="host_password"><i class="fas fa-lock"></i> Password *</label>
+                                        <div class="password-input">
+                                            <input type="password" id="host_password" name="password" placeholder="Create a strong password" required>
+                                            <button type="button" class="show-password" onclick="togglePassword('host_password')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="password-strength">
+                                            <div class="strength-bar"></div>
+                                            <span class="strength-text">Password strength</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="host_confirm_password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                                        <div class="password-input">
+                                            <input type="password" id="host_confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                                            <button type="button" class="show-password" onclick="togglePassword('host_confirm_password')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="host-benefits">
+                                    <h4><i class="fas fa-gift"></i> Host Benefits</h4>
+                                    <ul>
+                                        <li><i class="fas fa-check-circle"></i> Earn money from your idle vehicles</li>
+                                        <li><i class="fas fa-check-circle"></i> Set your own prices and availability</li>
+                                        <li><i class="fas fa-check-circle"></i> Get insured bookings</li>
+                                        <li><i class="fas fa-check-circle"></i> 24/7 customer support</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Business Details -->
+                            <div class="form-step" data-step="2">
+                                <h3><i class="fas fa-building"></i> Business Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="host_contact"><i class="fas fa-phone"></i> Contact Number *</label>
+                                        <input type="tel" id="host_contact" name="contact_number" placeholder="Business phone number" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="host_business_name"><i class="fas fa-briefcase"></i> Business Name</label>
+                                        <input type="text" id="host_business_name" name="business_name" placeholder="Your business name (if any)">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="host_address"><i class="fas fa-map-marker-alt"></i> Business Address *</label>
+                                    <textarea id="host_address" name="address" rows="3" placeholder="Complete business address" required></textarea>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="host_city"><i class="fas fa-city"></i> City *</label>
+                                        <input type="text" id="host_city" name="city" placeholder="City" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="host_state"><i class="fas fa-map"></i> State *</label>
+                                        <input type="text" id="host_state" name="state" placeholder="State" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="host_pincode"><i class="fas fa-map-pin"></i> Pincode *</label>
+                                        <input type="text" id="host_pincode" name="pincode" placeholder="Pincode" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button type="button" class="btn primary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Document Upload -->
+                            <div class="form-step" data-step="3">
+                                <h3><i class="fas fa-file-contract"></i> Verification Documents</h3>
+                                
+                                <div class="form-group">
+                                    <label><i class="fas fa-id-card"></i> ID Proof (Owner) *</label>
+                                    <p class="help-text">Upload Aadhar Card, PAN Card, Passport, or Driver's License</p>
+                                    <div class="file-upload-area" id="hostIdProofUploadArea">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-id-card"></i>
+                                        </div>
+                                        <p class="upload-text">Click to upload or drag & drop</p>
+                                        <p class="upload-subtext">PNG, JPG, PDF up to 5MB</p>
+                                        <input type="file" id="host_id_proof" name="id_proof" accept=".jpg,.jpeg,.png,.pdf" hidden required>
+                                        <div class="file-preview" id="hostIdProofPreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label><i class="fas fa-file-invoice"></i> Address Proof *</label>
+                                    <p class="help-text">Upload utility bill, bank statement, or rental agreement</p>
+                                    <div class="file-upload-area" id="addressProofUploadArea">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </div>
+                                        <p class="upload-text">Click to upload or drag & drop</p>
+                                        <p class="upload-subtext">PNG, JPG, PDF up to 5MB</p>
+                                        <input type="file" id="host_address_proof" name="address_proof" accept=".jpg,.jpeg,.png,.pdf" hidden required>
+                                        <div class="file-preview" id="addressProofPreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label><i class="fas fa-car"></i> Vehicle RC Copies (Optional)</label>
+                                    <p class="help-text">Upload RC copies of vehicles you want to list</p>
+                                    <div class="file-upload-area" id="rcUploadArea">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-car"></i>
+                                        </div>
+                                        <p class="upload-text">Click to upload multiple files</p>
+                                        <p class="upload-subtext">PNG, JPG, PDF up to 5MB each</p>
+                                        <input type="file" id="host_rc" name="rc_copies" accept=".jpg,.jpeg,.png,.pdf" multiple hidden>
+                                        <div class="file-preview" id="rcPreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="terms-agreement">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="host_terms" name="terms" required>
+                                        <span>I agree to the <a href="#" onclick="showHostTerms()">Host Agreement</a> and <a href="#" onclick="showPrivacy()">Privacy Policy</a> *</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button type="submit" class="btn success">
+                                        <i class="fas fa-home"></i> Become a Host
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="login-redirect">
+                        <p>Already have an account? <a href="login.html">Login here</a></p>
+                    </div>
+
+                    <div class="security-info">
+                        <div class="security-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Secure Registration</h4>
+                            <p>Your data is protected with 256-bit SSL encryption</p>
+                        </div>
+                        <div class="security-card">
+                            <i class="fas fa-user-check"></i>
+                            <h4>Verified Profiles</h4>
+                            <p>All users and hosts are verified for your safety</p>
+                        </div>
+                        <div class="security-card">
+                            <i class="fas fa-headset"></i>
+                            <h4>24/7 Support</h4>
+                            <p>Get help anytime during registration process</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal for Terms & Conditions -->
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-file-contract"></i> Terms & Conditions</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4>User Agreement</h4>
+                    <p>By registering as a user, you agree to:</p>
+                    <ul>
+                        <li>Provide accurate information during registration</li>
+                        <li>Maintain the confidentiality of your account</li>
+                        <li>Be responsible for all activities under your account</li>
+                        <li>Follow all traffic rules and regulations</li>
+                        <li>Return vehicles in the same condition as received</li>
+                        <li>Pay all applicable charges and fees</li>
+                    </ul>
+                    
+                    <h4>Vehicle Usage</h4>
+                    <p>Users must:</p>
+                    <ul>
+                        <li>Have a valid driving license</li>
+                        <li>Be at least 21 years old</li>
+                        <li>Not use vehicles for illegal activities</li>
+                        <li>Not smoke or consume alcohol in vehicles</li>
+                        <li>Report any accidents or damages immediately</li>
+                    </ul>
+                    
+                    <div class="modal-actions">
+                        <button class="btn primary" onclick="closeModal()">I Understand</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CarRental</h3>
+                <p>Your trusted partner for vehicle rentals.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse_vehicles.html">Browse Vehicles</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="user_profile.html">User Dashboard</a></li>
+                    <li><a href="host_profile.html">Host Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Street, City, Country</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 8900</p>
+                <p><i class="fas fa-envelope"></i> info@carrental.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CarRental System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Current form state
+        let currentStep = 1;
+        let currentFormType = 'user';
+        
+        // Tab switching functionality
+        function switchRegTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.reg-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.reg-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'RegForm').classList.add('active');
+            
+            // Activate selected tab button
+            event.currentTarget.classList.add('active');
+            
+            // Reset to step 1
+            resetToStep(1);
+            currentFormType = tabName;
+            
+            // Update form title
+            updateFormTitle();
+        }
+        
+        // Step navigation
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                if (currentStep < 3) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+        
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(stepElement => {
+                stepElement.classList.remove('active');
+            });
+            
+            // Show current step
+            const currentForm = currentFormType === 'user' ? 'userRegForm' : 'hostRegForm';
+            document.querySelector(`#${currentForm} .form-step[data-step="${step}"]`).classList.add('active');
+            
+            // Update progress bar
+            updateProgressBar(step);
+        }
+        
+        function resetToStep(step) {
+            currentStep = step;
+            showStep(step);
+        }
+        
+        // Progress bar update
+        function updateProgressBar(step) {
+            // Update progress steps
+            document.querySelectorAll('.progress-step').forEach((progressStep, index) => {
+                if (index + 1 <= step) {
+                    progressStep.classList.add('active');
+                } else {
+                    progressStep.classList.remove('active');
+                }
+            });
+            
+            // Update labels
+            document.querySelectorAll('.progress-labels span').forEach((label, index) => {
+                if (index + 1 === step) {
+                    label.classList.add('active');
+                } else {
+                    label.classList.remove('active');
+                }
+            });
+        }
+        
+        // Step validation
+        function validateStep(step) {
+            const currentForm = currentFormType === 'user' ? 'userRegForm' : 'hostRegForm';
+            const stepElement = document.querySelector(`#${currentForm} .form-step[data-step="${step}"]`);
+            
+            // Get all required inputs in this step
+            const requiredInputs = stepElement.querySelectorAll('input[required], textarea[required], select[required]');
+            
+            for (let input of requiredInputs) {
+                if (!input.value.trim()) {
+                    showAlert(`Please fill in ${input.previousElementSibling?.textContent || 'this field'}`, 'error');
+                    input.focus();
+                    return false;
+                }
+                
+                // Special validation for email
+                if (input.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(input.value)) {
+                        showAlert('Please enter a valid email address', 'error');
+                        input.focus();
+                        return false;
+                    }
+                }
+                
+                // Password validation for step 1
+                if (step === 1 && input.name === 'password') {
+                    if (input.value.length < 6) {
+                        showAlert('Password must be at least 6 characters long', 'error');
+                        input.focus();
+                        return false;
+                    }
+                }
+                
+                // Confirm password validation
+                if (input.name === 'confirm_password') {
+                    const password = stepElement.querySelector('input[name="password"]');
+                    if (password && input.value !== password.value) {
+                        showAlert('Passwords do not match', 'error');
+                        input.focus();
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+        
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Character variety checks
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            return strength;
+        }
+        
+        // Update password strength visual
+        function updatePasswordStrength(password) {
+            const strength = checkPasswordStrength(password);
+            const strengthBar = document.querySelector('.strength-bar');
+            const strengthText = document.querySelector('.strength-text');
+            
+            if (strengthBar && strengthText) {
+                let color, text;
+                
+                if (strength <= 2) {
+                    color = '#e74c3c'; // Red
+                    text = 'Weak';
+                } else if (strength <= 3) {
+                    color = '#f39c12'; // Orange
+                    text = 'Fair';
+                } else if (strength <= 4) {
+                    color = '#3498db'; // Blue
+                    text = 'Good';
+                } else {
+                    color = '#27ae60'; // Green
+                    text = 'Strong';
+                }
+                
+                strengthBar.style.width = `${(strength / 5) * 100}%`;
+                strengthBar.style.backgroundColor = color;
+                strengthText.textContent = `Password strength: ${text}`;
+            }
+        }
+        
+        // File upload handling
+        function initializeFileUploads() {
+            // User license upload
+            const licenseUploadArea = document.getElementById('licenseUploadArea');
+            const licenseInput = document.getElementById('user_license');
+            
+            if (licenseUploadArea && licenseInput) {
+                setupFileUpload(licenseUploadArea, licenseInput, 'licensePreview');
+            }
+            
+            // User ID proof upload
+            const idProofUploadArea = document.getElementById('idProofUploadArea');
+            const idProofInput = document.getElementById('user_id_proof');
+            
+            if (idProofUploadArea && idProofInput) {
+                setupFileUpload(idProofUploadArea, idProofInput, 'idProofPreview');
+            }
+            
+            // Host ID proof upload
+            const hostIdProofUploadArea = document.getElementById('hostIdProofUploadArea');
+            const hostIdProofInput = document.getElementById('host_id_proof');
+            
+            if (hostIdProofUploadArea && hostIdProofInput) {
+                setupFileUpload(hostIdProofUploadArea, hostIdProofInput, 'hostIdProofPreview');
+            }
+        }
+        
+        function setupFileUpload(uploadArea, fileInput, previewId) {
+            // Click to upload
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            // Drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('highlight');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('highlight');
+            }
+            
+            // Handle dropped files
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                handleFiles(files, previewId);
+            }
+            
+            // Handle selected files
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files, previewId);
+            });
+        }
+        
+        function handleFiles(files, previewId) {
+            const preview = document.getElementById(previewId);
+            
+            if (files.length > 0) {
+                preview.innerHTML = '';
+                
+                Array.from(files).forEach(file => {
+                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                        showAlert(`File ${file.name} is too large (max 5MB)`, 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const fileElement = document.createElement('div');
+                        fileElement.className = 'file-item';
+                        fileElement.innerHTML = `
+                            <i class="fas fa-file"></i>
+                            <div>
+                                <strong>${file.name}</strong>
+                                <span>${(file.size / 1024).toFixed(2)} KB</span>
+                            </div>
+                            <button type="button" onclick="removeFile(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        preview.appendChild(fileElement);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+        
+        function removeFile(button) {
+            const fileItem = button.closest('.file-item');
+            if (fileItem) {
+                fileItem.remove();
+            }
+        }
+        
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate final step
+            if (!validateStep(3)) {
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(this);
+            const userType = currentFormType;
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.btn.success');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Store user data in localStorage
+                const username = formData.get('username');
+                const email = formData.get('email');
+                
+                localStorage.setItem('userType', userType);
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+                localStorage.setItem('userId', Date.now().toString());
+                localStorage.setItem('isNewUser', 'true');
+                
+                // Show success message
+                showAlert(`Registration successful! Welcome ${username}`, 'success');
+                
+                // Redirect to appropriate page
+                setTimeout(() => {
+                    window.location.href = userType === 'user' ? 'user_profile.html' : 'host_profile.html';
+                }, 2000);
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+        
+        // Modal functions
+        function showTerms() {
+            event.preventDefault();
+            document.getElementById('termsModal').style.display = 'block';
+        }
+        
+        function showHostTerms() {
+            event.preventDefault();
+            // In a real app, this would show different terms
+            showTerms();
+        }
+        
+        function showPrivacy() {
+            event.preventDefault();
+            showAlert('Privacy policy will be shown here', 'info');
+        }
+        
+        function closeModal() {
+            document.getElementById('termsModal').style.display = 'none';
+        }
+        
+        // Alert function
+        function showAlert(message, type = 'info') {
+            // Remove any existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) existingAlert.remove();
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button onclick="this.parentElement.remove()" style="float: right; border: none; background: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            `;
+            
+            // Add to page
+            const container = document.querySelector('.register-container');
+            if (container) {
+                container.insertBefore(alertDiv, container.firstChild);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up file uploads
+            initializeFileUploads();
+            
+            // Set up password strength checking
+            const passwordInputs = document.querySelectorAll('input[type="password"][name="password"]');
+            passwordInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    updatePasswordStrength(this.value);
+                });
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.right = '0';
+                    navLinks.style.backgroundColor = 'white';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                });
+            }
+            
+            // Check URL for pre-selected tab
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            if (type && ['user', 'host'].includes(type)) {
+                switchRegTab(type);
+            }
+            
+            // Set minimum date for DOB (21 years ago)
+            const dobInput = document.getElementById('user_dob');
+            if (dobInput) {
+                const today = new Date();
+                const minDate = new Date(today.getFullYear() - 21, today.getMonth(), today.getDate());
+                dobInput.max = minDate.toISOString().split('T')[0];
+            }
+        });
+        
+        // Helper functions
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+        
+        function updateFormTitle() {
+            // This could update the form title based on current tab
+            // Currently handled by the static header
+        }
+    </script>
+
+    <style>
+        /* Registration Page Specific Styles */
+        .register-section {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .register-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .register-header {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .register-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .register-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .register-tabs {
+            display: flex;
+            background: var(--light-color);
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .reg-tab-btn {
+            flex: 1;
+            padding: 1.2rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .reg-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .reg-tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .form-progress {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #eee;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.2);
+        }
+        
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+        
+        .progress-labels span {
+            font-size: 0.9rem;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-labels span.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .register-form {
+            padding: 2rem;
+        }
+        
+        .reg-tab-content {
+            display: none;
+        }
+        
+        .reg-tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-step {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .form-step h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            width: 0%;
+            background: #e74c3c;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-text {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-top: 0.5rem;
+        }
+        
+        .file-upload-area:hover,
+        .file-upload-area.highlight {
+            border-color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .file-preview {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        
+        .file-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .file-item div {
+            flex: 1;
+        }
+        
+        .file-item strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .file-item span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .file-item button {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .help-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .host-benefits {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .host-benefits h4 {
+            color: var(--success-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .host-benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .host-benefits li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .host-benefits li i {
+            color: var(--success-color);
+            margin-top: 0.25rem;
+        }
+        
+        .terms-agreement {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .terms-agreement a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .terms-agreement a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn.success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .btn.success:hover {
+            background: #219653;
+        }
+        
+        .login-redirect {
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .login-redirect a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-redirect a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .security-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .security-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .security-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .security-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #666;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-body h4 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+        
+        .modal-body ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-actions {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem;
+            animation: slideDown 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .register-header h1 {
+                font-size: 2rem;
+            }
+            
+            .register-tabs,
+            .progress-labels {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .reg-tab-btn {
+                padding: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>
