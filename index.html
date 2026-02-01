@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GST Billing Software - Free</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
+        
+        /* Navbar */
+        .navbar { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: #2563eb; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: #4b5563; font-weight: 500; }
+        
+        /* Dashboard */
+        .dashboard { padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        /* Invoice Form */
+        .invoice-form { background: white; margin: 2rem; padding: 2rem; border-radius: 10px; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 5px; }
+        
+        /* Items Table */
+        .items-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .items-table th, .items-table td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+        .items-table th { background: #f9fafb; }
+        
+        /* Buttons */
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        
+        /* Tabs */
+        .tabs { display: flex; gap: 1rem; margin: 2rem; }
+        .tab { padding: 1rem 2rem; background: white; border-radius: 5px; cursor: pointer; }
+        .tab.active { background: #2563eb; color: white; }
+        
+        /* Hidden sections */
+        .section { display: none; padding: 2rem; }
+        .section.active { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">GoGSTBill</div>
+        <div class="nav-links">
+            <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+            <a href="#" onclick="showSection('invoice')">Invoice</a>
+            <a href="#" onclick="showSection('customers')">Customers</a>
+            <a href="#" onclick="showSection('products')">Products</a>
+            <a href="#" onclick="showSection('reports')">Reports</a>
+        </div>
+        <button class="btn btn-primary" onclick="newInvoice()">New Invoice</button>
+    </nav>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showSection('dashboard')">Dashboard</div>
+        <div class="tab" onclick="showSection('invoice')">Create Invoice</div>
+        <div class="tab" onclick="showSection('customers')">Customers</div>
+        <div class="tab" onclick="showSection('products')">Products</div>
+        <div class="tab" onclick="showSection('reports')">Reports</div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section active">
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3 id="totalInvoices">0</h3>
+                <p>Total Invoices</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalRevenue">₹0</h3>
+                <p>Total Revenue</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pendingInvoices">0</h3>
+                <p>Pending Invoices</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalCustomers">0</h3>
+                <p>Total Customers</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Invoice Section -->
+    <section id="invoice" class="section">
+        <div class="invoice-form">
+            <h2>Create GST Invoice</h2>
+            
+            <div class="form-group">
+                <label>Invoice Number</label>
+                <input type="text" id="invNo" value="INV-001" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label>Customer</label>
+                <select id="customerSelect" onchange="loadCustomer()">
+                    <option value="">Select Customer</option>
+                </select>
+            </div>
+            
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>GST%</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsBody">
+                    <tr>
+                        <td><input type="text" placeholder="Item description" onchange="calculateRow(this)"></td>
+                        <td><input type="number" value="1" min="1" onchange="calculateRow(this)"></td>
+                        <td><input type="number" value="0" min="0" step="0.01" onchange="calculateRow(this)"></td>
+                        <td>
+                            <select onchange="calculateRow(this)">
+                                <option value="0">0%</option>
+                                <option value="5">5%</option>
+                                <option value="12">12%</option>
+                                <option value="18" selected>18%</option>
+                                <option value="28">28%</option>
+                            </select>
+                        </td>
+                        <td>₹<span class="row-total">0.00</span></td>
+                        <td><button onclick="removeRow(this)" class="btn-danger">×</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button onclick="addRow()" class="btn btn-primary">Add Item</button>
+            
+            <div style="margin-top: 2rem; text-align: right;">
+                <h3>Subtotal: ₹<span id="subtotal">0.00</span></h3>
+                <h3>CGST: ₹<span id="cgst">0.00</span></h3>
+                <h3>SGST: ₹<span id="sgst">0.00</span></h3>
+                <h2>Total: ₹<span id="total">0.00</span></h2>
+                <button onclick="saveInvoice()" class="btn btn-success">Save Invoice</button>
+                <button onclick="printInvoice()" class="btn btn-primary">Print</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customers Section -->
+    <section id="customers" class="section">
+        <h2>Customers</h2>
+        <button onclick="addCustomer()" class="btn btn-primary">Add Customer</button>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>GSTIN</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="customersBody"></tbody>
+        </table>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section">
+        <h2>Products</h2>
+        <button onclick="addProduct()" class="btn btn-primary">Add Product</button>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>HSN Code</th>
+                    <th>Price</th>
+                    <th>GST%</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+        </table>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports" class="section">
+        <h2>Reports</h2>
+        <button onclick="generateGSTR1()" class="btn btn-primary">GSTR-1 Report</button>
+        <button onclick="generateSales()" class="btn btn-primary">Sales Report</button>
+        <div id="reportOutput"></div>
+    </section>
+
+    <script>
+        // Initialize Data Storage
+        let invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+        let customers = JSON.parse(localStorage.getItem('customers')) || [];
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+
+        // Initialize with sample data if empty
+        if (customers.length === 0) {
+            customers = [
+                { id: 1, name: "John Doe", phone: "9876543210", gstin: "27ABCDE1234F1Z5", email: "john@example.com" },
+                { id: 2, name: "Jane Smith", phone: "9876543211", gstin: "29FGHIJ5678K2L6", email: "jane@example.com" }
+            ];
+            saveData('customers', customers);
+        }
+
+        if (products.length === 0) {
+            products = [
+                { id: 1, name: "Web Development", hsn: "998314", price: 5000, gst: 18, stock: 100 },
+                { id: 2, name: "Mobile App", hsn: "998316", price: 10000, gst: 18, stock: 50 }
+            ];
+            saveData('products', products);
+        }
+
+        // Save data to localStorage
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+            updateDashboard();
+        }
+
+        // Update dashboard stats
+        function updateDashboard() {
+            document.getElementById('totalInvoices').textContent = invoices.length;
+            document.getElementById('totalRevenue').textContent = '₹' + invoices.reduce((sum, inv) => sum + inv.total, 0).toFixed(2);
+            document.getElementById('pendingInvoices').textContent = invoices.filter(inv => !inv.paid).length;
+            document.getElementById('totalCustomers').textContent = customers.length;
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.tab')[['dashboard','invoice','customers','products','reports'].indexOf(sectionId)].classList.add('active');
+            
+            if (sectionId === 'customers') loadCustomers();
+            if (sectionId === 'products') loadProducts();
+        }
+
+        // Invoice Functions
+        function calculateRow(input) {
+            const row = input.closest('tr');
+            const qty = row.querySelector('input[type="number"]:nth-child(2)').value || 0;
+            const rate = row.querySelector('input[type="number"]:nth-child(3)').value || 0;
+            const gst = row.querySelector('select').value || 0;
+            const amount = qty * rate;
+            row.querySelector('.row-total').textContent = amount.toFixed(2);
+            updateTotals();
+        }
+
+        function addRow() {
+            const tbody = document.getElementById('itemsBody');
+            const newRow = tbody.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="Item description" onchange="calculateRow(this)"></td>
+                <td><input type="number" value="1" min="1" onchange="calculateRow(this)"></td>
+                <td><input type="number" value="0" min="0" step="0.01" onchange="calculateRow(this)"></td>
+                <td>
+                    <select onchange="calculateRow(this)">
+                        <option value="0">0%</option>
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="18" selected>18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </td>
+                <td>₹<span class="row-total">0.00</span></td>
+                <td><button onclick="removeRow(this)" class="btn-danger">×</button></td>
+            `;
+        }
+
+        function removeRow(button) {
+            if (document.querySelectorAll('#itemsBody tr').length > 1) {
+                button.closest('tr').remove();
+                updateTotals();
+            }
+        }
+
+        function updateTotals() {
+            let subtotal = 0;
+            document.querySelectorAll('.row-total').forEach(span => {
+                subtotal += parseFloat(span.textContent) || 0;
+            });
+            
+            const gstRate = 18; // Default GST
+            const cgst = subtotal * (gstRate/2/100);
+            const sgst = subtotal * (gstRate/2/100);
+            const total = subtotal + cgst + sgst;
+            
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('cgst').textContent = cgst.toFixed(2);
+            document.getElementById('sgst').textContent = sgst.toFixed(2);
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
+
+        function saveInvoice() {
+            const items = [];
+            document.querySelectorAll('#itemsBody tr').forEach(row => {
+                items.push({
+                    description: row.querySelector('input[type="text"]').value,
+                    qty: row.querySelector('input[type="number"]:nth-child(2)').value,
+                    rate: row.querySelector('input[type="number"]:nth-child(3)').value,
+                    gst: row.querySelector('select').value
+                });
+            });
+
+            const invoice = {
+                id: Date.now(),
+                number: document.getElementById('invNo').value,
+                date: new Date().toLocaleDateString(),
+                customer: document.getElementById('customerSelect').value,
+                items: items,
+                subtotal: parseFloat(document.getElementById('subtotal').textContent),
+                cgst: parseFloat(document.getElementById('cgst').textContent),
+                sgst: parseFloat(document.getElementById('sgst').textContent),
+                total: parseFloat(document.getElementById('total').textContent),
+                paid: false
+            };
+
+            invoices.push(invoice);
+            saveData('invoices', invoices);
+            
+            // Generate next invoice number
+            const nextNum = invoices.length + 1;
+            document.getElementById('invNo').value = `INV-${nextNum.toString().padStart(3, '0')}`;
+            
+            alert('Invoice saved successfully!');
+        }
+
+        // Customer Functions
+        function loadCustomers() {
+            const tbody = document.getElementById('customersBody');
+            tbody.innerHTML = customers.map(c => `
+                <tr>
+                    <td>${c.name}</td>
+                    <td>${c.phone}</td>
+                    <td>${c.gstin}</td>
+                    <td>${c.email}</td>
+                    <td>
+                        <button onclick="editCustomer(${c.id})">Edit</button>
+                        <button onclick="deleteCustomer(${c.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Update customer dropdown
+            const select = document.getElementById('customerSelect');
+            select.innerHTML = '<option value="">Select Customer</option>' + 
+                customers.map(c => `<option value="${c.name}">${c.name} (${c.gstin})</option>`).join('');
+        }
+
+        function addCustomer() {
+            const name = prompt("Enter customer name:");
+            if (!name) return;
+            
+            const phone = prompt("Enter phone number:");
+            const gstin = prompt("Enter GSTIN:");
+            const email = prompt("Enter email:");
+            
+            const newCustomer = {
+                id: Date.now(),
+                name,
+                phone,
+                gstin,
+                email
+            };
+            
+            customers.push(newCustomer);
+            saveData('customers', customers);
+            loadCustomers();
+        }
+
+        // Product Functions
+        function loadProducts() {
+            const tbody = document.getElementById('productsBody');
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.hsn}</td>
+                    <td>₹${p.price}</td>
+                    <td>${p.gst}%</td>
+                    <td>${p.stock}</td>
+                    <td>
+                        <button onclick="editProduct(${p.id})">Edit</button>
+                        <button onclick="deleteProduct(${p.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addProduct() {
+            const name = prompt("Enter product name:");
+            if (!name) return;
+            
+            const hsn = prompt("Enter HSN code:");
+            const price = parseFloat(prompt("Enter price:"));
+            const gst = parseFloat(prompt("Enter GST %:"));
+            const stock = parseInt(prompt("Enter stock quantity:"));
+            
+            const newProduct = {
+                id: Date.now(),
+                name,
+                hsn,
+                price,
+                gst,
+                stock
+            };
+            
+            products.push(newProduct);
+            saveData('products', products);
+            loadProducts();
+        }
+
+        // Report Functions
+        function generateGSTR1() {
+            const output = document.getElementById('reportOutput');
+            let html = '<h3>GSTR-1 Report</h3><table class="items-table"><thead><tr><th>Invoice No</th><th>Date</th><th>Value</th><th>Taxable Value</th><th>CGST</th><th>SGST</th></tr></thead><tbody>';
+            
+            invoices.forEach(inv => {
+                html += `<tr>
+                    <td>${inv.number}</td>
+                    <td>${inv.date}</td>
+                    <td>₹${inv.total.toFixed(2)}</td>
+                    <td>₹${inv.subtotal.toFixed(2)}</td>
+                    <td>₹${inv.cgst.toFixed(2)}</td>
+                    <td>₹${inv.sgst.toFixed(2)}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            output.innerHTML = html;
+        }
+
+        function generateSales() {
+            const output = document.getElementById('reportOutput');
+            let total = invoices.reduce((sum, inv) => sum + inv.total, 0);
+            output.innerHTML = `<h3>Sales Report</h3><p>Total Sales: ₹${total.toFixed(2)}</p><p>Number of Invoices: ${invoices.length}</p>`;
+        }
+
+        // Print Invoice
+        function printInvoice() {
+            window.print();
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            updateDashboard();
+            loadCustomers();
+            loadProducts();
+            document.getElementById('invNo').value = `INV-${(invoices.length + 1).toString().padStart(3, '0')}`;
+        };
+    </script>
+</body>
+</html>
