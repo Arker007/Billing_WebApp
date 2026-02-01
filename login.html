@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental System - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-car"></i>
+                    <span>CarRental</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="browse_vehicles.html"><i class="fas fa-car"></i> Browse Vehicles</a></li>
+                <li><a href="about_us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="login.html" class="active"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="register.html"><i class="fas fa-user-plus"></i> Register</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="container">
+                <div class="login-container">
+                    <div class="login-header">
+                        <h1><i class="fas fa-sign-in-alt"></i> Login to Your Account</h1>
+                        <p>Access your dashboard to manage bookings, vehicles, or admin tasks</p>
+                    </div>
+
+                    <div class="login-tabs">
+                        <button class="tab-btn active" onclick="switchTab('user')">
+                            <i class="fas fa-user"></i> User Login
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('host')">
+                            <i class="fas fa-home"></i> Host Login
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('admin')">
+                            <i class="fas fa-user-shield"></i> Admin Login
+                        </button>
+                    </div>
+
+                    <form id="loginForm" class="login-form">
+                        <div id="userForm" class="tab-content active">
+                            <div class="form-group">
+                                <label for="user_email"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="user_email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user_password"><i class="fas fa-lock"></i> Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="user_password" name="password" placeholder="Enter your password" required>
+                                    <button type="button" class="show-password" onclick="togglePassword('user_password')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="user_user_type" name="user_type" value="user">
+                            
+                            <div class="form-options">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="remember">
+                                    <span>Remember me</span>
+                                </label>
+                                <a href="#" class="forgot-password">Forgot Password?</a>
+                            </div>
+                            
+                            <button type="submit" class="btn primary login-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login as User
+                            </button>
+                            
+                            <div class="register-link">
+                                <p>Don't have an account? <a href="register.html?type=user">Register as User</a></p>
+                            </div>
+                        </div>
+
+                        <div id="hostForm" class="tab-content">
+                            <div class="form-group">
+                                <label for="host_email"><i class="fas fa-envelope"></i> Host Email</label>
+                                <input type="email" id="host_email" name="email" placeholder="Enter your host email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="host_password"><i class="fas fa-lock"></i> Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="host_password" name="password" placeholder="Enter your password" required>
+                                    <button type="button" class="show-password" onclick="togglePassword('host_password')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="host_user_type" name="user_type" value="host">
+                            
+                            <div class="form-group">
+                                <label for="host_code"><i class="fas fa-key"></i> Host Code (Optional)</label>
+                                <input type="text" id="host_code" name="host_code" placeholder="Enter host code if provided">
+                            </div>
+                            
+                            <button type="submit" class="btn primary login-btn">
+                                <i class="fas fa-home"></i> Login as Host
+                            </button>
+                            
+                            <div class="register-link">
+                                <p>Want to list your vehicle? <a href="register.html?type=host">Become a Host</a></p>
+                            </div>
+                        </div>
+
+                        <div id="adminForm" class="tab-content">
+                            <div class="form-group">
+                                <label for="admin_email"><i class="fas fa-envelope"></i> Admin Email</label>
+                                <input type="email" id="admin_email" name="email" placeholder="admin@example.com" value="admin@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin_password"><i class="fas fa-lock"></i> Admin Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="admin_password" name="password" placeholder="Enter admin password" value="adminpassword" required>
+                                    <button type="button" class="show-password" onclick="togglePassword('admin_password')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="admin_user_type" name="user_type" value="admin">
+                            
+                            <div class="security-note">
+                                <i class="fas fa-shield-alt"></i>
+                                <p>For security, please use the admin portal only from secure networks.</p>
+                            </div>
+                            
+                            <button type="submit" class="btn primary login-btn">
+                                <i class="fas fa-user-shield"></i> Login as Admin
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="demo-credentials">
+                        <h3><i class="fas fa-info-circle"></i> Demo Credentials</h3>
+                        <div class="credentials-grid">
+                            <div class="credential-card">
+                                <h4><i class="fas fa-user"></i> User</h4>
+                                <p><strong>Email:</strong> user@example.com</p>
+                                <p><strong>Password:</strong> password123</p>
+                            </div>
+                            <div class="credential-card">
+                                <h4><i class="fas fa-home"></i> Host</h4>
+                                <p><strong>Email:</strong> host@example.com</p>
+                                <p><strong>Password:</strong> password123</p>
+                            </div>
+                            <div class="credential-card">
+                                <h4><i class="fas fa-user-shield"></i> Admin</h4>
+                                <p><strong>Email:</strong> admin@example.com</p>
+                                <p><strong>Password:</strong> adminpassword</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CarRental</h3>
+                <p>Your trusted partner for vehicle rentals.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse_vehicles.html">Browse Vehicles</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="user_profile.html">User Dashboard</a></li>
+                    <li><a href="host_profile.html">Host Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Street, City, Country</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 8900</p>
+                <p><i class="fas fa-envelope"></i> info@carrental.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CarRental System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'Form').classList.add('active');
+            
+            // Activate selected tab button
+            event.currentTarget.classList.add('active');
+            
+            // Update form submission based on selected tab
+            updateFormForTab(tabName);
+        }
+        
+        function updateFormForTab(tabName) {
+            // Update hidden input value
+            document.querySelectorAll('input[name="user_type"]').forEach(input => {
+                input.value = tabName;
+            });
+        }
+        
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleBtn = passwordInput.nextElementSibling;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+        
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const userType = formData.get('user_type');
+            
+            // Simple validation
+            if (!email || !password) {
+                showAlert('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.login-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Store user data in localStorage (simulating session)
+                localStorage.setItem('userType', userType);
+                localStorage.setItem('username', email.split('@')[0]);
+                localStorage.setItem('userId', Date.now().toString());
+                localStorage.setItem('email', email);
+                
+                // Show success message
+                showAlert('Login successful! Redirecting to dashboard...', 'success');
+                
+                // Redirect based on user type
+                setTimeout(() => {
+                    if (userType === 'admin') {
+                        window.location.href = 'admin_panel.html';
+                    } else {
+                        window.location.href = userType + '_profile.html';
+                    }
+                }, 1500);
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+        
+        // Alert function
+        function showAlert(message, type = 'info') {
+            // Remove any existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) existingAlert.remove();
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button onclick="this.parentElement.remove()" style="float: right; border: none; background: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            `;
+            
+            // Add to page
+            const container = document.querySelector('.login-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+        
+        // Initialize based on URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            if (type && ['user', 'host', 'admin'].includes(type)) {
+                // Find and click the corresponding tab button
+                const tabBtn = document.querySelector(`.tab-btn[onclick*="${type}"]`);
+                if (tabBtn) {
+                    tabBtn.click();
+                }
+            }
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.right = '0';
+                    navLinks.style.backgroundColor = 'white';
+                    navLinks.style.padding = '1rem';
+                    navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                });
+            }
+        });
+    </script>
+
+    <style>
+        /* Login Page Specific Styles */
+        .login-section {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .login-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .login-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .login-tabs {
+            display: flex;
+            background: var(--light-color);
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1.2rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .login-form {
+            padding: 2rem;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .password-input {
+            position: relative;
+        }
+        
+        .password-input input {
+            padding-right: 50px;
+            width: 100%;
+        }
+        
+        .show-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .checkbox input {
+            width: auto;
+        }
+        
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-note {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .security-note i {
+            color: var(--warning-color);
+            font-size: 1.5rem;
+        }
+        
+        .demo-credentials {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-top: 2px solid #eee;
+        }
+        
+        .demo-credentials h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .credential-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .credential-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .credential-card p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-header h1 {
+                font-size: 2rem;
+            }
+            
+            .login-tabs {
+                flex-direction: column;
+            }
+            
+            .credentials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</body>
+</html>
